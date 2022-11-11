@@ -16,6 +16,17 @@
 		AD901DB8291B7A7D00E2258C /* WeatherForecastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DB7291B7A7D00E2258C /* WeatherForecastTests.swift */; };
 		AD901DC2291B7A7D00E2258C /* WeatherForecastUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DC1291B7A7D00E2258C /* WeatherForecastUITests.swift */; };
 		AD901DC4291B7A7D00E2258C /* WeatherForecastUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DC3291B7A7D00E2258C /* WeatherForecastUITestsLaunchTests.swift */; };
+		AD901DD2291B7D2D00E2258C /* WeatherForcastApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DD1291B7D2D00E2258C /* WeatherForcastApiClient.swift */; };
+		AD901DD4291B7D9700E2258C /* ApiRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DD3291B7D9700E2258C /* ApiRequest+Extension.swift */; };
+		AD901DD6291B940A00E2258C /* URLResponse+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DD5291B940A00E2258C /* URLResponse+Extension.swift */; };
+		AD901DD9291BAA0800E2258C /* ForeCastRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DD8291BAA0800E2258C /* ForeCastRequest.swift */; };
+		AD901DDB291BAC5900E2258C /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DDA291BAC5900E2258C /* Keys.swift */; };
+		AD901DDE291BCA3600E2258C /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DDD291BCA3600E2258C /* Home.swift */; };
+		AD9CD60B291CFC37009693EF /* CurrentWeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD60A291CFC37009693EF /* CurrentWeatherForecast.swift */; };
+		AD9CD60D291CFD1B009693EF /* CurrentWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD60C291CFD1B009693EF /* CurrentWeatherViewModel.swift */; };
+		AD9CD60F291CFE61009693EF /* CurrentWeatherDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD60E291CFE61009693EF /* CurrentWeatherDetailViewModel.swift */; };
+		AD9CD611291CFECF009693EF /* ForeCastRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD610291CFECF009693EF /* ForeCastRequestBuilder.swift */; };
+		AD9CD614291E4A07009693EF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD613291E4A07009693EF /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +60,18 @@
 		AD901DBD291B7A7D00E2258C /* WeatherForecastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherForecastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD901DC1291B7A7D00E2258C /* WeatherForecastUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastUITests.swift; sourceTree = "<group>"; };
 		AD901DC3291B7A7D00E2258C /* WeatherForecastUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		AD901DD1291B7D2D00E2258C /* WeatherForcastApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForcastApiClient.swift; sourceTree = "<group>"; };
+		AD901DD3291B7D9700E2258C /* ApiRequest+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ApiRequest+Extension.swift"; sourceTree = "<group>"; };
+		AD901DD5291B940A00E2258C /* URLResponse+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extension.swift"; sourceTree = "<group>"; };
+		AD901DD8291BAA0800E2258C /* ForeCastRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastRequest.swift; sourceTree = "<group>"; };
+		AD901DDA291BAC5900E2258C /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		AD901DDD291BCA3600E2258C /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		AD9CD60A291CFC37009693EF /* CurrentWeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherForecast.swift; sourceTree = "<group>"; };
+		AD9CD60C291CFD1B009693EF /* CurrentWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModel.swift; sourceTree = "<group>"; };
+		AD9CD60E291CFE61009693EF /* CurrentWeatherDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherDetailViewModel.swift; sourceTree = "<group>"; };
+		AD9CD610291CFECF009693EF /* ForeCastRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastRequestBuilder.swift; sourceTree = "<group>"; };
+		AD9CD613291E4A07009693EF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		AD9CD618291E61B3009693EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +122,11 @@
 		AD901D9F291B7A7C00E2258C /* WeatherForecast */ = {
 			isa = PBXGroup;
 			children = (
+				AD9CD618291E61B3009693EF /* Info.plist */,
+				AD9CD612291E49E5009693EF /* Home */,
+				AD9CD609291CFC14009693EF /* Entities */,
+				AD901DDC291BAE0B00E2258C /* CurrentWeather */,
+				AD901DD0291B7C4E00E2258C /* Networking */,
 				AD901DA0291B7A7C00E2258C /* WeatherForecastApp.swift */,
 				AD901DA2291B7A7C00E2258C /* Persistence.swift */,
 				AD901DA7291B7A7C00E2258C /* ContentView.swift */,
@@ -106,6 +134,7 @@
 				AD901DAB291B7A7D00E2258C /* WeatherForecast.entitlements */,
 				AD901DA4291B7A7C00E2258C /* WeatherForecast.xcdatamodeld */,
 				AD901DAC291B7A7D00E2258C /* Preview Content */,
+				AD901DDD291BCA3600E2258C /* Home.swift */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -133,6 +162,52 @@
 				AD901DC3291B7A7D00E2258C /* WeatherForecastUITestsLaunchTests.swift */,
 			);
 			path = WeatherForecastUITests;
+			sourceTree = "<group>";
+		};
+		AD901DD0291B7C4E00E2258C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				AD901DD7291BA8CB00E2258C /* Forecast */,
+				AD901DD1291B7D2D00E2258C /* WeatherForcastApiClient.swift */,
+				AD901DD3291B7D9700E2258C /* ApiRequest+Extension.swift */,
+				AD901DD5291B940A00E2258C /* URLResponse+Extension.swift */,
+				AD901DDA291BAC5900E2258C /* Keys.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		AD901DD7291BA8CB00E2258C /* Forecast */ = {
+			isa = PBXGroup;
+			children = (
+				AD901DD8291BAA0800E2258C /* ForeCastRequest.swift */,
+				AD9CD610291CFECF009693EF /* ForeCastRequestBuilder.swift */,
+			);
+			path = Forecast;
+			sourceTree = "<group>";
+		};
+		AD901DDC291BAE0B00E2258C /* CurrentWeather */ = {
+			isa = PBXGroup;
+			children = (
+				AD9CD60C291CFD1B009693EF /* CurrentWeatherViewModel.swift */,
+				AD9CD60E291CFE61009693EF /* CurrentWeatherDetailViewModel.swift */,
+			);
+			path = CurrentWeather;
+			sourceTree = "<group>";
+		};
+		AD9CD609291CFC14009693EF /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				AD9CD60A291CFC37009693EF /* CurrentWeatherForecast.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		AD9CD612291E49E5009693EF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				AD9CD613291E4A07009693EF /* HomeViewModel.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,10 +340,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD901DD9291BAA0800E2258C /* ForeCastRequest.swift in Sources */,
+				AD901DD4291B7D9700E2258C /* ApiRequest+Extension.swift in Sources */,
+				AD901DDE291BCA3600E2258C /* Home.swift in Sources */,
 				AD901DA6291B7A7C00E2258C /* WeatherForecast.xcdatamodeld in Sources */,
 				AD901DA1291B7A7C00E2258C /* WeatherForecastApp.swift in Sources */,
+				AD901DD6291B940A00E2258C /* URLResponse+Extension.swift in Sources */,
 				AD901DA8291B7A7C00E2258C /* ContentView.swift in Sources */,
+				AD901DD2291B7D2D00E2258C /* WeatherForcastApiClient.swift in Sources */,
+				AD9CD60B291CFC37009693EF /* CurrentWeatherForecast.swift in Sources */,
+				AD901DDB291BAC5900E2258C /* Keys.swift in Sources */,
+				AD9CD611291CFECF009693EF /* ForeCastRequestBuilder.swift in Sources */,
 				AD901DA3291B7A7C00E2258C /* Persistence.swift in Sources */,
+				AD9CD60F291CFE61009693EF /* CurrentWeatherDetailViewModel.swift in Sources */,
+				AD9CD614291E4A07009693EF /* HomeViewModel.swift in Sources */,
+				AD9CD60D291CFD1B009693EF /* CurrentWeatherViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +511,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WeatherForecast/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherForecast/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To fetch for weather forecast in your current location";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -433,8 +521,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -443,10 +531,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.-WeatherForecast.WeatherForecast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -461,6 +551,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"WeatherForecast/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherForecast/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To fetch for weather forecast in your current location";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -469,8 +561,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -479,10 +571,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.-WeatherForecast.WeatherForecast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
