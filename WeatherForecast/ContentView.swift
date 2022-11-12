@@ -18,7 +18,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            List {
+            SwiftUI.List {
                 ForEach(items) { item in
                     NavigationLink {
                         Text("Item at \(item.timestamp!, formatter: itemFormatter)")

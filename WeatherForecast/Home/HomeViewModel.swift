@@ -12,21 +12,36 @@ import CoreLocation
 
 class  HomeViewModel : NSObject, ObservableObject {
     @Published var currentWeatherViewModel: CurrentWeatherViewModel
+    @Published var weeklyViewModel: WeeklyForeCastViewModel
     @Published var state: ViewModelState = .loading
+    @Published public var city: String = ""
     
     let logger = Logger(subsystem: "com.WeatherForecast.WeatherForecast", category: "HomeViewModel")
     
-    init(client: WeatherForcastApiClient = APIClient.shared, currentViewMOdel: CurrentWeatherViewModel) {
+    init(client: WeatherForcastApiClient = APIClient.shared,
+         currentViewMOdel: CurrentWeatherViewModel,
+         weeklyViewModel: WeeklyForeCastViewModel) {
         self.currentWeatherViewModel = currentViewMOdel
+        self.weeklyViewModel = weeklyViewModel
         super.init()
         locationManager.delegate = self
         
-        currentViewMOdel
-            .$detailViewModel
+        Publishers.Zip(currentViewMOdel.$detailViewModel, weeklyViewModel.$detailViewModels)
             .receive(on: DispatchQueue.main)
-            .sink {[weak self] value in
-            self?.state = .success
-        }.store(in: &disposables)
+            .sink(
+                receiveCompletion: { [weak self] value in
+                    guard let self = self else { return }
+                    switch value {
+                    case .failure:
+                        self.state = .error
+                    case .finished:
+                        self.state = .success
+                    }
+                },
+                receiveValue: { _ in
+                    self.state = .success
+                })
+            .store(in: &disposables)
         self.requestLocationData()
     }
     
@@ -60,6 +75,7 @@ extension HomeViewModel : CLLocationManagerDelegate {
         if let lastLocation = locations.last {
             locationManager.stopUpdatingLocation()
             currentWeatherViewModel.location = lastLocation.coordinate
+            weeklyViewModel.location = lastLocation.coordinate
         }
     }
 }

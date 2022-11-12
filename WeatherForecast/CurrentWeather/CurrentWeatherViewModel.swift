@@ -13,7 +13,6 @@ final class CurrentWeatherViewModel:  ObservableObject, Identifiable {
 
     @Published var detailViewModel: CurrentWeatherDetailViewModel?
     @Published public var location: CLLocationCoordinate2D?
-    @Published public var city: String = ""
 
     private let apiServiceClient: WeatherForcastApiClient
     private var requestBuilder: ForeCastRequestBuilder
@@ -54,7 +53,7 @@ final class CurrentWeatherViewModel:  ObservableObject, Identifiable {
     }
 
     private func bind() {
-        $city
+        $location
             .compactMap{$0}
             .debounce(for: .seconds(0.5),
                       scheduler: DispatchQueue(label: "CurrentWeatherDetailViewModel"))
