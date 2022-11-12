@@ -12,47 +12,46 @@ struct Home: View {
     
     var body: some View {
         VStack(spacing: -5) {
-            // current weather
-            if homeViewModel.state == .success,
-               let currentWeatheViewModel = homeViewModel.currentWeatherViewModel,
-               let vm = currentWeatheViewModel.detailViewModel {
-                CurrentWeatherView(viewModel: vm, textFieldBind: $homeViewModel.city)
-                Spacer().frame(height: 5)
-                ScrollView {
-                    
-                    LazyVGrid(columns: columns, spacing: 20) {
+            if homeViewModel.state != .success {
+                StateView(message:  homeViewModel.stateMessage)
+            } else {
+                
+                if let currentWeatheViewModel = homeViewModel.currentWeatherViewModel,
+                   let vm = currentWeatheViewModel.detailViewModel {
+                    CurrentWeatherView(viewModel: vm, textFieldBind: $homeViewModel.city)
+                    Spacer().frame(height: 5)
+                    ScrollView {
                         
-                        GridRow {
-                            VStack {
-                                Text("Min")
-                                    .foregroundColor(.white)
-                                Text(vm.minTemperature)
-                                    .foregroundColor(.white)
-                            }
+                        LazyVGrid(columns: columns, spacing: 20) {
                             
-                            VStack {
-                                Text("Current")
-                                    .foregroundColor(.white)
-                                Text(vm.temperature)
-                                    .foregroundColor(.white)
+                            GridRow {
+                                VStack {
+                                    Text("Min")
+                                        .foregroundColor(.white)
+                                    Text(vm.minTemperature)
+                                        .foregroundColor(.white)
+                                }
+                                
+                                VStack {
+                                    Text("Current")
+                                        .foregroundColor(.white)
+                                    Text(vm.temperature)
+                                        .foregroundColor(.white)
+                                }
+                                
+                                VStack {
+                                    Text("Max")
+                                        .foregroundColor(.white)
+                                    Text(vm.maxTemperature)
+                                        .foregroundColor(.white)
+                                }
                             }
-                            
-                            VStack {
-                                Text("Max")
-                                    .foregroundColor(.white)
-                                Text(vm.maxTemperature)
-                                    .foregroundColor(.white)
-                            }
+                            // table view for 5 day forecast
+                            WeeklyforeCastView(viewModel: self.homeViewModel.weeklyViewModel)
                         }
-                        // table view for 5 day forecast
-                        WeeklyforeCastView(viewModel: self.homeViewModel.weeklyViewModel)
-                    }
-                }.frame(maxHeight: .infinity)
-                    .background(Color.blue)
-            }
-            
-            if homeViewModel.state == .loading {
-                StateView()
+                    }.frame(maxHeight: .infinity)
+                        .background(Color.blue)
+                }
             }
         }
     }
@@ -122,9 +121,15 @@ struct CurrentWeatherView: View {
 
 struct StateView: View {
     var body: some View  {
-        Text("Fetching data...")
-            .foregroundColor(.gray)
+        Text(message)
+            .foregroundColor(.black)
     }
+
+    init(message: String) {
+        self.message = message
+    }
+
+    private let message: String
 }
 
 struct Home_Previews: PreviewProvider {

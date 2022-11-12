@@ -16,6 +16,17 @@ class  HomeViewModel : NSObject, ObservableObject {
     @Published var state: ViewModelState = .loading
     @Published public var city: String = ""
     
+    var stateMessage: String {
+        switch state {
+        case let .error(message: message):
+            return message
+        case .loading:
+            return "Fetching data...."
+        default:
+            return ""
+        }
+    }
+    
     let logger = Logger(subsystem: "com.WeatherForecast.WeatherForecast", category: "HomeViewModel")
     
     init(client: WeatherForcastApiClient = APIClient.shared,
@@ -32,17 +43,22 @@ class  HomeViewModel : NSObject, ObservableObject {
                 receiveCompletion: { [weak self] value in
                     guard let self = self else { return }
                     switch value {
-                    case .failure:
-                        self.state = .error
+                    case .failure(let error):
+                        self.state = .error(message: error.localizedDescription)
                     case .finished:
                         self.state = .success
                     }
                 },
                 receiveValue: { _ in
+                    guard self.currentWeatherViewModel.location != nil else {return}
                     self.state = .success
                 })
             .store(in: &disposables)
         self.requestLocationData()
+
+        if !canAccessLocation() {
+            self.state = .error(message: "Please allow Location acess for the app to fetch weather forecast!")
+        }
     }
     
     public func canAccessLocation() -> Bool {
@@ -81,8 +97,8 @@ extension HomeViewModel : CLLocationManagerDelegate {
 }
 
 
-enum ViewModelState {
+enum ViewModelState: Equatable {
     case loading
-    case error
+    case error(message: String)
     case success
 }
