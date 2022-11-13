@@ -30,6 +30,7 @@ class  HomeViewModel : NSObject, ObservableObject {
     let logger = Logger(subsystem: "com.WeatherForecast.WeatherForecast", category: "HomeViewModel")
     
     init(client: WeatherForcastApiClient = APIClient.shared,
+         fetchuserLocationOnLoad: Bool = true,
          currentViewMOdel: CurrentWeatherViewModel,
          weeklyViewModel: WeeklyForeCastViewModel) {
         self.currentWeatherViewModel = currentViewMOdel
@@ -68,10 +69,13 @@ class  HomeViewModel : NSObject, ObservableObject {
             }
 
         }.store(in: &disposables)
-        self.requestLocationData()
-
-        if !canAccessLocation() {
-            self.state = .error(message: "Please allow Location acess for the app to fetch weather forecast!")
+        
+        if fetchuserLocationOnLoad {
+            self.requestLocationData()
+            
+            if !canAccessLocation() {
+                self.state = .error(message: "Please allow Location acess for the app to fetch weather forecast!")
+            }
         }
     }
     
@@ -114,7 +118,6 @@ extension HomeViewModel : CLLocationManagerDelegate {
         }
     }
 }
-
 
 enum ViewModelState: Equatable {
     case loading

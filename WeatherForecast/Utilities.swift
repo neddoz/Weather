@@ -20,8 +20,6 @@ let monthFormatter: DateFormatter = {
   return formatter
 }()
 
-
-
 // Date
 extension Date {
     func dayOfWeek() -> String {

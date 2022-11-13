@@ -29,12 +29,12 @@ final class CurrentWeatherViewModel:  ObservableObject, Identifiable {
     }
 
     func refresh() {
-        guard let client = apiServiceClient as? APIClient, let location else {
+        guard let location else {
             // unexpected state
             return
         }
 
-        client.send(request: requestBuilder.makeCurrentDayForecastRequest(for: location))
+        apiServiceClient.send(request: requestBuilder.makeCurrentDayForecastRequest(for: location))
             .map(CurrentWeatherDetailViewModel.init)
             .receive(on: DispatchQueue.main)
             .sink(

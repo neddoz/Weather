@@ -28,12 +28,12 @@ class WeeklyForeCastViewModel {
     }
 
     func refresh() {
-        guard let client = apiServiceClient as? APIClient, let location else {
+        guard let location else {
             // unexpected state
             return
         }
 
-        let publisher: AnyPublisher< WeeklyForeCast, Error> = client.send(request: requestBuilder.makeWeeklyForecastRequest(for: location))
+        let publisher: AnyPublisher< WeeklyForeCast, Error> = apiServiceClient.send(request: requestBuilder.makeWeeklyForecastRequest(for: location))
         
         publisher.map { response in
             response.list.compactMap(WeeklyForeCastDetailViewModel.init)
