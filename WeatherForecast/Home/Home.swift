@@ -115,7 +115,7 @@ struct CurrentWeatherView: View {
     var body: some View {
         
         ZStack {
-            Image("forest_cloudy")
+            Image(viewModel.icon)
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()

@@ -9,10 +9,6 @@ import Foundation
 import MapKit
 import Combine
 
-import Foundation
-import MapKit
-import Combine
-
 struct LocalSearchViewData: Identifiable {
     var id = UUID()
     var title: String

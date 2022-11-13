@@ -31,6 +31,31 @@ struct CurrentWeatherDetailViewModel {
         return item.name
     }
     
+    var condition: String {
+        return item.weather.first?.main ?? ""
+    }
+    
+    var icon: String {
+        enum WeatherCondition: String {
+            case Rain
+            case Clouds
+            case Clear
+        }
+        let condition = WeatherCondition(rawValue: condition)
+        
+        switch condition {
+        case .Clouds:
+            return "forest_cloudy"
+        case .Clear:
+            return "forest_sunny"
+        case .Rain:
+            return "forest_rainy"
+        case .none:
+            return ""
+        }
+    }
+    
+    
     init(item: CurrentWeatherForecast) {
         self.item = item
     }
