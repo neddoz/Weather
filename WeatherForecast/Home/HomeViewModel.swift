@@ -109,6 +109,12 @@ extension HomeViewModel : CLLocationManagerDelegate {
         
     }
     
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         if let lastLocation = locations.last {
