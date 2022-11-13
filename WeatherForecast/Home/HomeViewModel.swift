@@ -37,6 +37,7 @@ class  HomeViewModel : NSObject, ObservableObject {
         super.init()
         locationManager.delegate = self
         
+        // success
         Publishers.Zip(currentViewMOdel.$detailViewModel, weeklyViewModel.$detailViewModels)
             .receive(on: DispatchQueue.main)
             .sink(
@@ -54,6 +55,19 @@ class  HomeViewModel : NSObject, ObservableObject {
                     self.state = .success
                 })
             .store(in: &disposables)
+        
+        // error handling
+        Publishers.CombineLatest(currentViewMOdel.$error, weeklyViewModel.$error).receive(on: DispatchQueue.main).sink { value in
+
+            if let error = value.0 {
+                self.state = .error(message: error.localizedDescription)
+            }
+            
+            if let error = value.1 {
+                self.state = .error(message: error.localizedDescription)
+            }
+
+        }.store(in: &disposables)
         self.requestLocationData()
 
         if !canAccessLocation() {
@@ -73,6 +87,11 @@ class  HomeViewModel : NSObject, ObservableObject {
         if(canAccessLocation()){
             self.locationManager.requestLocation()
         }
+    }
+    
+    func fetchForeCastFor(location: CLLocationCoordinate2D) {
+        currentWeatherViewModel.location = location
+        weeklyViewModel.location = location
     }
 
     private let locationManager = CLLocationManager()

@@ -26,10 +26,10 @@ class LocationService: NSObject, ObservableObject {
     private var queryCancellable: AnyCancellable?
     private let searchCompleter: MKLocalSearchCompleter!
 
-    init(searchCompleter: MKLocalSearchCompleter = MKLocalSearchCompleter(), delegate: MKLocalSearchCompleterDelegate) {
+    init(searchCompleter: MKLocalSearchCompleter = MKLocalSearchCompleter()) {
         self.searchCompleter = searchCompleter
         super.init()
-        self.searchCompleter.delegate = delegate
+        self.searchCompleter.delegate = self
 
         queryCancellable = $queryFragment
             .receive(on: DispatchQueue.main)
@@ -45,5 +45,60 @@ class LocationService: NSObject, ObservableObject {
                     self.searchResults = []
                 }
         })
+    }
+}
+
+extension LocationService: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        // Depending on what you're searching, you might need to filter differently or
+        // remove the filter altogether. Filtering for an empty Subtitle seems to filter
+        // out a lot of places and only shows cities and countries.
+        self.searchResults = completer.results.filter({ $0.subtitle == "" })
+        self.status = completer.results.isEmpty ? .noResults : .result
+    }
+
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        self.status = .error(error.localizedDescription)
+    }
+}
+
+
+final class LocalSearchService {
+    let localSearchPublisher = PassthroughSubject<[MKMapItem], Never>()
+    private let center: CLLocationCoordinate2D
+    private let radius: CLLocationDistance
+
+    init(in center: CLLocationCoordinate2D,
+         radius: CLLocationDistance = 350_000) {
+        self.center = center
+        self.radius = radius
+    }
+    
+    public func searchCities(searchText: String) {
+        request(resultType: .address, searchText: searchText)
+    }
+    
+    public func searchPointOfInterests(searchText: String) {
+        request(searchText: searchText)
+    }
+    
+    private func request(resultType: MKLocalSearch.ResultType = .pointOfInterest,
+                         searchText: String) {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchText
+        request.pointOfInterestFilter = .includingAll
+        request.resultTypes = resultType
+        request.region = MKCoordinateRegion(center: center,
+                                            latitudinalMeters: radius,
+                                            longitudinalMeters: radius)
+        let search = MKLocalSearch(request: request)
+
+        search.start { [weak self](response, _) in
+            guard let response = response else {
+                return
+            }
+
+            self?.localSearchPublisher.send(response.mapItems)
+        }
     }
 }

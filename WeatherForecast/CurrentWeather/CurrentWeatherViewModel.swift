@@ -13,6 +13,7 @@ final class CurrentWeatherViewModel:  ObservableObject, Identifiable {
 
     @Published var detailViewModel: CurrentWeatherDetailViewModel?
     @Published public var location: CLLocationCoordinate2D?
+    @Published var error: Error?
 
     private let apiServiceClient: WeatherForcastApiClient
     private var requestBuilder: ForeCastRequestBuilder
@@ -40,8 +41,9 @@ final class CurrentWeatherViewModel:  ObservableObject, Identifiable {
                 receiveCompletion: { [weak self] value in
                     guard let self = self else { return }
                     switch value {
-                    case .failure:
+                    case .failure(let error):
                         self.detailViewModel = nil
+                        self.error = error
                     case .finished:
                         break
                     }

@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import CoreLocation
+
+protocol LocationSearchDelegate {
+    func search()
+    func fetchWeatherFor(city: CLLocationCoordinate2D)
+}
 
 struct Home: View {
     @ObservedObject var homeViewModel: HomeViewModel
+    @State private var searchIsPresented = false
     
     var body: some View {
         VStack(spacing: -5) {
@@ -18,7 +25,7 @@ struct Home: View {
                 
                 if let currentWeatheViewModel = homeViewModel.currentWeatherViewModel,
                    let vm = currentWeatheViewModel.detailViewModel {
-                    CurrentWeatherView(viewModel: vm, textFieldBind: $homeViewModel.city)
+                    CurrentWeatherView(viewModel: vm, textFieldBind: $homeViewModel.city, searchDelegate: self)
                     Spacer().frame(height: 5)
                     ScrollView {
                         
@@ -54,6 +61,7 @@ struct Home: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $searchIsPresented) { LocationSearchView(delegate: self) }
     }
     
     init(currentViewModel: HomeViewModel? = nil) {
@@ -64,6 +72,16 @@ struct Home: View {
         GridItem(.flexible()),
         GridItem(.flexible()),
     ]
+}
+
+extension Home: LocationSearchDelegate {
+    func search() {
+        searchIsPresented.toggle()
+    }
+    
+    func fetchWeatherFor(city: CLLocationCoordinate2D) {
+        homeViewModel.fetchForeCastFor(location: city)
+    }
 }
 
 struct WeeklyforeCastView: View {
@@ -86,10 +104,12 @@ struct WeeklyforeCastView: View {
 struct CurrentWeatherView: View {
     var viewModel: CurrentWeatherDetailViewModel
     var textFieldBind: Binding<String>
+    var locationSearchDelegate: LocationSearchDelegate?
     
-    init(viewModel: CurrentWeatherDetailViewModel, textFieldBind: Binding<String>) {
+    init(viewModel: CurrentWeatherDetailViewModel, textFieldBind: Binding<String>, searchDelegate: LocationSearchDelegate?) {
         self.viewModel = viewModel
         self.textFieldBind = textFieldBind
+        self.locationSearchDelegate = searchDelegate
     }
     
     var body: some View {
@@ -101,10 +121,18 @@ struct CurrentWeatherView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 50) {
-                
-                TextField("Search Location", text: textFieldBind)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(width: UIScreen.main.bounds.width * 0.7)
+                Button {
+                    locationSearchDelegate?.search()
+                } label: {
+                    Text("Search for a Location")
+                        .padding()
+                        .cornerRadius(10)
+                        .foregroundColor(Color.white)
+                        .background(Color.gray)
+                        .border(Color.white, width: 2)
+                        
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.7)
 
                 Text(viewModel.name)
                     .foregroundColor(.white)
@@ -149,7 +177,7 @@ struct WeeklyDayWeatherRow: View {
         GridRow{
             Text(viewModel.day)
                 .foregroundColor(.white)
-            Text(viewModel.weatherListing.weather.first?.main.rawValue ?? "")
+            Text(viewModel.weatherListing.weather.first?.main ?? "")
                 .foregroundColor(.white)
             Text(viewModel.maxTemperature)
                 .foregroundColor(.white)

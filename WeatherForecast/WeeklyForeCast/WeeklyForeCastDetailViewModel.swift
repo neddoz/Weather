@@ -11,15 +11,15 @@ import Foundation
 class WeeklyForeCastDetailViewModel {
     
     var temperature: String {
-        return temeperatureString(for: weatherListing.main.temp)
+        return temeperatureString(for: weatherListing.main.temperature)
     }
     
     var maxTemperature: String {
-        return temeperatureString(for: weatherListing.main.tempMax)
+        return temeperatureString(for: weatherListing.main.maxTemperature)
     }
     
     var minTemperature: String {
-        return temeperatureString(for: weatherListing.main.tempMin)
+        return temeperatureString(for: weatherListing.main.minTemperature)
         
     }
     

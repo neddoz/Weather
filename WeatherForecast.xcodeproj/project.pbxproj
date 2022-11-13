@@ -32,6 +32,9 @@
 		AD9CD61F291F8580009693EF /* WeeklyForeCastDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD61E291F8580009693EF /* WeeklyForeCastDetailViewModel.swift */; };
 		AD9CD621291F91A3009693EF /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD620291F91A3009693EF /* Utilities.swift */; };
 		AD9CD623291F9327009693EF /* WeeklyForeCastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD622291F9327009693EF /* WeeklyForeCastViewModel.swift */; };
+		AD9CD6252921290C009693EF /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD6242921290C009693EF /* LocationSearchView.swift */; };
+		AD9CD62729213346009693EF /* LocationSearchViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD62629213346009693EF /* LocationSearchViewData.swift */; };
+		AD9CD62929214129009693EF /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9CD62829214129009693EF /* LocationSearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +85,9 @@
 		AD9CD61E291F8580009693EF /* WeeklyForeCastDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyForeCastDetailViewModel.swift; sourceTree = "<group>"; };
 		AD9CD620291F91A3009693EF /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		AD9CD622291F9327009693EF /* WeeklyForeCastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyForeCastViewModel.swift; sourceTree = "<group>"; };
+		AD9CD6242921290C009693EF /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
+		AD9CD62629213346009693EF /* LocationSearchViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewData.swift; sourceTree = "<group>"; };
+		AD9CD62829214129009693EF /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +216,7 @@
 			children = (
 				AD9CD60A291CFC37009693EF /* CurrentWeatherForecast.swift */,
 				AD9CD61B291F81F2009693EF /* WeeklyForeCast.swift */,
+				AD9CD62629213346009693EF /* LocationSearchViewData.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -220,6 +227,8 @@
 				AD9CD613291E4A07009693EF /* HomeViewModel.swift */,
 				AD901DDD291BCA3600E2258C /* Home.swift */,
 				AD9CD619291EE0B4009693EF /* LocationSearchService.swift */,
+				AD9CD6242921290C009693EF /* LocationSearchView.swift */,
+				AD9CD62829214129009693EF /* LocationSearchViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -363,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD9CD62929214129009693EF /* LocationSearchViewModel.swift in Sources */,
 				AD901DD9291BAA0800E2258C /* ForeCastRequest.swift in Sources */,
 				AD9CD61F291F8580009693EF /* WeeklyForeCastDetailViewModel.swift in Sources */,
 				AD901DD4291B7D9700E2258C /* ApiRequest+Extension.swift in Sources */,
@@ -370,7 +380,9 @@
 				AD901DA6291B7A7C00E2258C /* WeatherForecast.xcdatamodeld in Sources */,
 				AD901DA1291B7A7C00E2258C /* WeatherForecastApp.swift in Sources */,
 				AD901DD6291B940A00E2258C /* URLResponse+Extension.swift in Sources */,
+				AD9CD6252921290C009693EF /* LocationSearchView.swift in Sources */,
 				AD9CD61A291EE0B4009693EF /* LocationSearchService.swift in Sources */,
+				AD9CD62729213346009693EF /* LocationSearchViewData.swift in Sources */,
 				AD9CD623291F9327009693EF /* WeeklyForeCastViewModel.swift in Sources */,
 				AD901DA8291B7A7C00E2258C /* ContentView.swift in Sources */,
 				AD901DD2291B7D2D00E2258C /* WeatherForcastApiClient.swift in Sources */,
