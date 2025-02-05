@@ -7,67 +7,56 @@
 
 import Foundation
 import CoreLocation
-import Combine
 
-class WeeklyForeCastViewModel {
-    
+class WeeklyForeCastViewModel: ObservableObject {
     @Published var detailViewModels: [WeeklyForeCastDetailViewModel]?
     @Published public var location: CLLocationCoordinate2D?
     @Published var error: Error?
 
-    private let apiServiceClient: WeatherForcastApiClient
+    nonisolated private let apiServiceClient: WeatherForcastApiClient
     private var requestBuilder: ForeCastRequestBuilder
-    private var disposables = Set<AnyCancellable>()
+    private var locationTask: Task<Void, Never>?
 
     init(apiServiceClient: WeatherForcastApiClient,
          requestBuilder: ForeCastRequestBuilder = .init()) {
         self.apiServiceClient = apiServiceClient
         self.requestBuilder = requestBuilder
-
-        bind()
     }
 
-    func refresh() {
+    deinit {
+        locationTask?.cancel()
+    }
+
+    @MainActor
+    func refresh() async {
         guard let location else {
             // unexpected state
             return
         }
-
-        let publisher: AnyPublisher< WeeklyForeCast, Error> = apiServiceClient.send(request: requestBuilder.makeWeeklyForecastRequest(for: location))
-        
-        publisher.map { response in
-            response.list.compactMap(WeeklyForeCastDetailViewModel.init)
+        do {
+            let result: [WeeklyForeCastItem] = try await apiServiceClient.send(request: requestBuilder.makeWeeklyForecastRequest(for: location))
+            var weeklyForeCastVms: [WeeklyForeCastDetailViewModel] = []
+            await MainActor.run {
+                weeklyForeCastVms = result.compactMap(
+                    WeeklyForeCastDetailViewModel.init
+                ).removeDuplicates()
+            }
+            self.detailViewModels = weeklyForeCastVms
+        } catch {
+            self.error = error
         }
-        .map(Array.removeDuplicates)
-        .receive(on: DispatchQueue.main)
-        .sink(
-            receiveCompletion: { [weak self] value in
-                guard let self = self else { return }
-                switch value {
-                case .failure(let error):
-                    self.detailViewModels = nil
-                    self.error = error
-                    print("Error fetching weekly \(error.localizedDescription)")
-                case .finished:
-                    break
-                }
-            },
-            receiveValue: { value in
-                self.detailViewModels = value
-            })
-        .store(in: &disposables)
+        
     }
-    
-    private func bind() {
-        $location
-            .compactMap{$0}
-            .debounce(for: .seconds(0.5),
-                      scheduler: DispatchQueue(label: "WeeklyForeCastViewModel"))
-            .sink {[weak self] _ in
-                self?.refresh()
-            }.store(in: &disposables)
+
+    @MainActor
+    func bind() async {
+//        locationTask = Task {
+            for await _ in $location.values.compactMap({ $0 }) {
+                try? await Task.sleep(for: .seconds(0.5)) // Debounce
+                await refresh()
+            }
+//        }
     }
 }
-
 
 

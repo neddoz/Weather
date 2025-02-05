@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AD901DA1291B7A7C00E2258C /* WeatherForecastApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DA0291B7A7C00E2258C /* WeatherForecastApp.swift */; };
-		AD901DA3291B7A7C00E2258C /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD901DA2291B7A7C00E2258C /* Persistence.swift */; };
 		AD901DA6291B7A7C00E2258C /* WeatherForecast.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD901DA4291B7A7C00E2258C /* WeatherForecast.xcdatamodeld */; };
 		AD901DAA291B7A7D00E2258C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD901DA9291B7A7D00E2258C /* Assets.xcassets */; };
 		AD901DAE291B7A7D00E2258C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD901DAD291B7A7D00E2258C /* Preview Assets.xcassets */; };
@@ -52,7 +51,6 @@
 /* Begin PBXFileReference section */
 		AD901D9D291B7A7C00E2258C /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD901DA0291B7A7C00E2258C /* WeatherForecastApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastApp.swift; sourceTree = "<group>"; };
-		AD901DA2291B7A7C00E2258C /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		AD901DA5291B7A7C00E2258C /* WeatherForecast.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherForecast.xcdatamodel; sourceTree = "<group>"; };
 		AD901DA9291B7A7D00E2258C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD901DAB291B7A7D00E2258C /* WeatherForecast.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherForecast.entitlements; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 				AD901DDC291BAE0B00E2258C /* CurrentWeather */,
 				AD901DD0291B7C4E00E2258C /* Networking */,
 				AD901DA0291B7A7C00E2258C /* WeatherForecastApp.swift */,
-				AD901DA2291B7A7C00E2258C /* Persistence.swift */,
 				AD901DA9291B7A7D00E2258C /* Assets.xcassets */,
 				AD901DAB291B7A7D00E2258C /* WeatherForecast.entitlements */,
 				AD901DA4291B7A7C00E2258C /* WeatherForecast.xcdatamodeld */,
@@ -278,7 +275,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					AD901D9C291B7A7C00E2258C = {
 						CreatedOnToolsVersion = 14.1;
@@ -350,7 +347,6 @@
 				AD9CD611291CFECF009693EF /* ForeCastRequestBuilder.swift in Sources */,
 				AD9CD621291F91A3009693EF /* Utilities.swift in Sources */,
 				AD9CD62C292171F4009693EF /* MockAPIClient.swift in Sources */,
-				AD901DA3291B7A7C00E2258C /* Persistence.swift in Sources */,
 				AD9CD60F291CFE61009693EF /* CurrentWeatherDetailViewModel.swift in Sources */,
 				AD9CD614291E4A07009693EF /* HomeViewModel.swift in Sources */,
 				AD9CD61C291F81F2009693EF /* WeeklyForeCast.swift in Sources */,
@@ -414,9 +410,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -472,9 +470,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -498,6 +498,7 @@
 				CODE_SIGN_ENTITLEMENTS = WeatherForecast/WeatherForecast.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WeatherForecast/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -525,7 +526,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -538,6 +539,7 @@
 				CODE_SIGN_ENTITLEMENTS = WeatherForecast/WeatherForecast.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WeatherForecast/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -565,7 +567,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -573,10 +575,10 @@
 		AD901DCB291B7A7D00E2258C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -595,10 +597,10 @@
 		AD901DCC291B7A7D00E2258C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;

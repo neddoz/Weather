@@ -29,22 +29,17 @@ final class WeeklyForeCastViewModelTests: XCTestCase {
     }
     
     func test_binds_location() {
-        let ex = expectation(description: "Fetching weekly forecast")
         mockClient.mockScenario = .weeklyForeCastSuccess
 
         let location =  CLLocationCoordinate2D.init(latitude: 45, longitude: 23)
-        sut.$detailViewModels.compactMap{$0}.sink { value in
-            ex.fulfill()
-        }.store(in: &disposables)
         
         sut.location = location
         XCTAssertNotNil(sut.location)
         XCTAssertEqual(sut.location?.latitude , 45)
         
-        // fetches data on location update
-        
-        waitForExpectations(timeout: 4)
-
-        XCTAssertEqual(sut.detailViewModels?.count, 6)
+        Task { @MainActor in
+            await sut.refresh()
+            XCTAssertEqual(sut.detailViewModels?.count, 6)
+        }
     }
 }

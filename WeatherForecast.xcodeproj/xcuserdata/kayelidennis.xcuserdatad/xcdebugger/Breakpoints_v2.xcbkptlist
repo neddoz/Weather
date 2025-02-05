@@ -3,4 +3,80 @@
    uuid = "7969A0E2-F4E7-469B-B118-F6A9B690C9CB"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F34D0662-E734-4CB6-8464-8271E25ADB0C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherForecast/WeeklyForeCast/WeeklyForeCastViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "bind()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F34D0662-E734-4CB6-8464-8271E25ADB0C - 3672118fcd922f82"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) await resume partial function for WeatherForecast.WeeklyForeCastViewModel.bind() async -&gt; ()"
+                  moduleName = "WeatherForecast.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kayelidennis/Desktop/Weather/WeatherForecast/WeeklyForeCast/WeeklyForeCastViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "F34D0662-E734-4CB6-8464-8271E25ADB0C - ee3b15acb374eb84"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) await resume partial function for WeatherForecast.WeeklyForeCastViewModel.bind() async -&gt; ()"
+                  moduleName = "WeatherForecast.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kayelidennis/Desktop/Weather/WeatherForecast/WeeklyForeCast/WeeklyForeCastViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "F34D0662-E734-4CB6-8464-8271E25ADB0C - a22b6927e89ca4cb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for WeatherForecast.WeeklyForeCastViewModel.bind() async -&gt; ()"
+                  moduleName = "WeatherForecast.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kayelidennis/Desktop/Weather/WeatherForecast/WeeklyForeCast/WeeklyForeCastViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+               <Location
+                  uuid = "F34D0662-E734-4CB6-8464-8271E25ADB0C - 199dd08f473d7ec0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for WeatherForecast.WeeklyForeCastViewModel.bind() async -&gt; ()"
+                  moduleName = "WeatherForecast.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kayelidennis/Desktop/Weather/WeatherForecast/WeeklyForeCast/WeeklyForeCastViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

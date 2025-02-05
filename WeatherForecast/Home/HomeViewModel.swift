@@ -6,15 +6,23 @@
 //
 
 import Foundation
-import Combine
 import os
 import CoreLocation
 
-class  HomeViewModel : NSObject, ObservableObject {
+final class HomeViewModel: NSObject, ObservableObject {
     @Published var currentWeatherViewModel: CurrentWeatherViewModel
     @Published var weeklyViewModel: WeeklyForeCastViewModel
     @Published var state: ViewModelState = .loading
-    @Published public var city: String = ""
+    @Published public var city: String = "" {
+        didSet {
+            refresh()
+        }
+    }
+    @Published public var cityCoordinates: CLLocationCoordinate2D? {
+        didSet {
+            refresh()
+        }
+    }
     
     var stateMessage: String {
         switch state {
@@ -27,56 +35,57 @@ class  HomeViewModel : NSObject, ObservableObject {
         }
     }
     
-    let logger = Logger(subsystem: "com.WeatherForecast.WeatherForecast", category: "HomeViewModel")
+    private let logger = Logger(
+        subsystem: "com.WeatherForecast.WeatherForecast",
+        category: "HomeViewModel"
+    )
+    private let locationManager = CLLocationManager()
     
-    init(client: WeatherForcastApiClient = APIClient.shared,
-         fetchuserLocationOnLoad: Bool = true,
-         currentViewMOdel: CurrentWeatherViewModel,
+    init(client: WeatherForcastApiClient = APIClient(),
+         fetchUserLocationOnLoad: Bool = true,
+         currentViewModel: CurrentWeatherViewModel,
          weeklyViewModel: WeeklyForeCastViewModel) {
-        self.currentWeatherViewModel = currentViewMOdel
+        self.currentWeatherViewModel = currentViewModel
         self.weeklyViewModel = weeklyViewModel
         super.init()
         locationManager.delegate = self
         
-        // success
-        Publishers.Zip(currentViewMOdel.$detailViewModel, weeklyViewModel.$detailViewModels)
-            .receive(on: DispatchQueue.main)
-            .sink(
-                receiveCompletion: { [weak self] value in
-                    guard let self = self else { return }
-                    switch value {
-                    case .failure(let error):
-                        self.state = .error(message: error.localizedDescription)
-                    case .finished:
-                        self.state = .success
-                    }
-                },
-                receiveValue: { _ in
-                    guard self.currentWeatherViewModel.location != nil else {return}
-                    self.state = .success
-                })
-            .store(in: &disposables)
-        
-        // error handling
-        Publishers.CombineLatest(currentViewMOdel.$error, weeklyViewModel.$error).receive(on: DispatchQueue.main).sink { value in
-
-            if let error = value.0 {
-                self.state = .error(message: error.localizedDescription)
-            }
-            
-            if let error = value.1 {
-                self.state = .error(message: error.localizedDescription)
-            }
-
-        }.store(in: &disposables)
-        
-        if fetchuserLocationOnLoad {
-            self.requestLocationData()
+        if fetchUserLocationOnLoad {
+            requestLocationData()
             
             if !canAccessLocation() {
-                self.state = .error(message: "Please allow Location acess for the app to fetch weather forecast!")
+                state = .error(message: "Please allow Location access for the app to fetch weather forecast!")
             }
         }
+    }
+
+    @MainActor
+    func observeViewModels() async {
+        for await _ in currentWeatherViewModel.$detailViewModel.values {
+            updateState()
+        }
+        for await _ in weeklyViewModel.$detailViewModels.values {
+            updateState()
+        }
+        for await error in currentWeatherViewModel.$error.values {
+            if let error = error {
+                state = .error(message: error.localizedDescription)
+            }
+        }
+        for await error in weeklyViewModel.$error.values {
+            if let error = error {
+                state = .error(message: error.localizedDescription)
+            }
+        }
+
+    }
+    
+    private func updateState() {
+        if currentWeatherViewModel.location != nil {
+            state = .success
+            refresh()
+        }
+        refresh()
     }
     
     public func canAccessLocation() -> Bool {
@@ -85,45 +94,46 @@ class  HomeViewModel : NSObject, ObservableObject {
     }
     
     func requestLocationData() {
-        if(locationManager.authorizationStatus == .notDetermined) {
-            self.locationManager.requestWhenInUseAuthorization()
+        if locationManager.authorizationStatus == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
         }
-        if(canAccessLocation()){
-            self.locationManager.requestLocation()
+        
+        if canAccessLocation() {
+            locationManager.requestLocation()
         }
     }
     
-    func fetchForeCastFor(location: CLLocationCoordinate2D) {
+    func fetchForecastFor(location: CLLocationCoordinate2D) {
         currentWeatherViewModel.location = location
         weeklyViewModel.location = location
     }
-
-    private let locationManager = CLLocationManager()
-    private var disposables = Set<AnyCancellable>()
+    
+    func refresh() {
+        currentWeatherViewModel.location = cityCoordinates
+        weeklyViewModel.location = cityCoordinates
+    }
 }
 
-extension HomeViewModel : CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager,
-                         didFailWithError error: Error){
+extension HomeViewModel: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         logger.debug("\(error.localizedDescription)")
-        
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
+        if manager.authorizationStatus == .authorizedWhenInUse ||
+            manager.authorizationStatus == .authorizedAlways {
             locationManager.startUpdatingLocation()
         }
     }
     
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let lastLocation = locations.last {
             locationManager.stopUpdatingLocation()
-            currentWeatherViewModel.location = lastLocation.coordinate
-            weeklyViewModel.location = lastLocation.coordinate
+            cityCoordinates = lastLocation.coordinate
         }
     }
 }
+
 
 enum ViewModelState: Equatable {
     case loading

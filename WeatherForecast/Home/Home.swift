@@ -8,11 +8,6 @@
 import SwiftUI
 import CoreLocation
 
-protocol LocationSearchDelegate {
-    func search()
-    func fetchWeatherFor(city: CLLocationCoordinate2D)
-}
-
 struct Home: View {
     @ObservedObject var homeViewModel: HomeViewModel
     @State private var searchIsPresented = false
@@ -22,15 +17,11 @@ struct Home: View {
             if homeViewModel.state != .success {
                 StateView(message:  homeViewModel.stateMessage)
             } else {
-                
-                if let currentWeatheViewModel = homeViewModel.currentWeatherViewModel,
-                   let vm = currentWeatheViewModel.detailViewModel {
-                    CurrentWeatherView(viewModel: vm, textFieldBind: $homeViewModel.city, searchDelegate: self)
+                if let vm = homeViewModel.currentWeatherViewModel.detailViewModel {
+                    currentWeather(using: vm)
                     Spacer().frame(height: 5)
                     ScrollView {
-                        
                         LazyVGrid(columns: columns, spacing: 20) {
-                            
                             GridRow {
                                 VStack {
                                     Text("Min")
@@ -54,66 +45,53 @@ struct Home: View {
                                 }
                             }
                             // table view for 5 day forecast
-                            WeeklyforeCastView(viewModel: self.homeViewModel.weeklyViewModel)
+                            WeeklyforeCastView(
+                                viewModel: self.homeViewModel.weeklyViewModel
+                            )
                         }
                     }.frame(maxHeight: .infinity)
                         .background(Color.blue)
                 }
             }
         }
-        .fullScreenCover(isPresented: $searchIsPresented) { LocationSearchView(delegate: self) }
+        .task {
+            await homeViewModel.weeklyViewModel.refresh()
+            await homeViewModel.currentWeatherViewModel.refresh()
+            await homeViewModel.observeViewModels()
+        }
+        .fullScreenCover(
+            isPresented: $searchIsPresented,
+            onDismiss: {
+                Task { @MainActor in
+                    homeViewModel.refresh()
+                    await homeViewModel.weeklyViewModel.refresh()
+                    await homeViewModel.currentWeatherViewModel.refresh()
+                }
+        }) {
+            LocationSearchView(
+                viewModel: .init(),
+                city: $homeViewModel.city,
+                cityCoordinate: $homeViewModel.cityCoordinates
+            )
+        }
     }
     
     init(currentViewModel: HomeViewModel? = nil) {
-        self.homeViewModel = HomeViewModel(currentViewMOdel: .init(apiServiceClient: APIClient.shared), weeklyViewModel: .init(apiServiceClient: APIClient.shared))
+        self.homeViewModel = HomeViewModel(
+            currentViewModel: .init(apiServiceClient: APIClient()),
+            weeklyViewModel: .init(apiServiceClient: APIClient())
+        )
     }
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible()),
     ]
-}
-
-extension Home: LocationSearchDelegate {
-    func search() {
-        searchIsPresented.toggle()
-    }
     
-    func fetchWeatherFor(city: CLLocationCoordinate2D) {
-        homeViewModel.fetchForeCastFor(location: city)
-    }
-}
-
-struct WeeklyforeCastView: View {
-    
-    var body: some View {
-        
-        if let vms = self.viewModel.detailViewModels {
-            ForEach(vms, content: WeeklyDayWeatherRow.init(viewModel:))
-        }
-    }
-    
-    init(viewModel: WeeklyForeCastViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    private var viewModel: WeeklyForeCastViewModel
-}
-
-
-struct CurrentWeatherView: View {
-    var viewModel: CurrentWeatherDetailViewModel
-    var textFieldBind: Binding<String>
-    var locationSearchDelegate: LocationSearchDelegate?
-    
-    init(viewModel: CurrentWeatherDetailViewModel, textFieldBind: Binding<String>, searchDelegate: LocationSearchDelegate?) {
-        self.viewModel = viewModel
-        self.textFieldBind = textFieldBind
-        self.locationSearchDelegate = searchDelegate
-    }
-    
-    var body: some View {
-        
+    @ViewBuilder
+    private func currentWeather(
+        using viewModel: CurrentWeatherDetailViewModel
+    ) -> some View {
         ZStack {
             Image(viewModel.icon)
                 .resizable()
@@ -122,7 +100,7 @@ struct CurrentWeatherView: View {
             
             VStack(spacing: 50) {
                 Button {
-                    locationSearchDelegate?.search()
+                    searchIsPresented.toggle()
                 } label: {
                     Text("Search for a Location")
                         .padding()
@@ -145,6 +123,24 @@ struct CurrentWeatherView: View {
             
         }
     }
+}
+
+struct WeeklyforeCastView: View {
+    
+    var body: some View {
+        
+        if let vms = self.viewModel.detailViewModels {
+            ForEach(vms, id: \.hashValue) {vm in
+                WeeklyDayWeatherRow.init(viewModel:vm)
+            }
+        }
+    }
+    
+    init(viewModel: WeeklyForeCastViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    private var viewModel: WeeklyForeCastViewModel
 }
 
 struct StateView: View {

@@ -14,7 +14,9 @@ struct LocalSearchViewData: Identifiable {
     var title: String
     var subtitle: String
     var coordinate: CLLocationCoordinate2D
-    
+}
+
+extension LocalSearchViewData {
     init(mapItem: MKMapItem) {
         self.title = mapItem.name ?? ""
         self.subtitle = mapItem.placemark.title ?? ""

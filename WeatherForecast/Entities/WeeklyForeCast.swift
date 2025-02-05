@@ -8,10 +8,10 @@
 import Foundation
 
 struct WeeklyForeCast: Codable {
-    let list: [List]
+    let list: [WeeklyForeCastItem]
 }
 
-struct List: Codable {
+struct WeeklyForeCastItem: Codable {
     let weather: [Weather]
     let date: Date
     let main: Main

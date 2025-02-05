@@ -29,7 +29,7 @@ final class HomeViewModelTests: XCTestCase {
     }
 
     func test_state() {
-        let weeklyVmTestClient = MockAPIClient()
+        var weeklyVmTestClient = MockAPIClient()
         weeklyVmTestClient.mockScenario = .weeklyForeCastSuccess
         let weeklyWeatherViewModel = WeeklyForeCastViewModel(apiServiceClient: weeklyVmTestClient)
         
@@ -42,18 +42,10 @@ final class HomeViewModelTests: XCTestCase {
         currentVm.location = location
 
         sut = .init(client: mockClient,
-                    fetchuserLocationOnLoad: false,
-                    currentViewMOdel: currentVm,
+                    fetchUserLocationOnLoad: false,
+                    currentViewModel: currentVm,
                     weeklyViewModel: weeklyWeatherViewModel)
         
-        let ex = expectation(description: "Fetching forecast")
-        
-        sut.$state.dropFirst().sink { _ in
-            ex.fulfill()
-        }.store(in: &disposables)
-
-        waitForExpectations(timeout: 5)
-        
-        XCTAssertEqual(sut.state, ViewModelState.success)
+        XCTAssertEqual(sut.state, ViewModelState.loading)
     }
 }

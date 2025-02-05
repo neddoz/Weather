@@ -7,8 +7,8 @@
 
 import Foundation
 
-
-class WeeklyForeCastDetailViewModel {
+//@MainActor
+struct WeeklyForeCastDetailViewModel {
     
     var temperature: String {
         return temeperatureString(for: weatherListing.main.temperature)
@@ -23,6 +23,7 @@ class WeeklyForeCastDetailViewModel {
         
     }
     
+    nonisolated
     var day: String {
         return weatherListing.date.dayOfWeek()
     }
@@ -31,9 +32,9 @@ class WeeklyForeCastDetailViewModel {
         return monthFormatter.string(from: weatherListing.date)
     }
     
-    let weatherListing: List
+    let weatherListing: WeeklyForeCastItem
     
-    init(_ item: List) {
+    init(_ item: WeeklyForeCastItem) {
         self.weatherListing = item
     }
     
@@ -41,16 +42,19 @@ class WeeklyForeCastDetailViewModel {
 
 
 extension WeeklyForeCastDetailViewModel: Hashable {
-    static func == (lhs: WeeklyForeCastDetailViewModel, rhs: WeeklyForeCastDetailViewModel) -> Bool {
+    nonisolated static func == (lhs: WeeklyForeCastDetailViewModel, rhs: WeeklyForeCastDetailViewModel) -> Bool {
+        
         return lhs.day == rhs.day
     }
-    
-    func hash(into hasher: inout Hasher) {
+
+    nonisolated func hash(into hasher: inout Hasher) {
         hasher.combine(self.day)
     }
 }
 
-extension WeeklyForeCastDetailViewModel: Identifiable {
-    
-}
+//extension WeeklyForeCastDetailViewModel: Identifiable {
+//    var id: ObjectIdentifier {
+//        return UUID()
+//    }
+//}
 

@@ -8,46 +8,42 @@
 import Foundation
 import Combine
 
-protocol WeatherForcastApiClient {
-    
-    static var shared: WeatherForcastApiClient { get }
-    func send<T: Codable & Decodable>(request: APIRequest) -> AnyPublisher<T, Error>
+protocol WeatherForcastApiClient: Sendable {
+    func send<T: Codable>(request: APIRequest) async throws -> T
 }
 
-final class APIClient: WeatherForcastApiClient {
+import Foundation
 
-
-    static var shared: WeatherForcastApiClient {
-        return APIClient.instance
-    }
+struct APIClient: WeatherForcastApiClient {
     
-    func send<T: Codable>(request: APIRequest) -> AnyPublisher<T, Error>{
-        return session.dataTaskPublisher(for: request.urlRequest()).tryMap { data, response in
-            guard response.status == .success else {
-                throw NetworkError(response: response, message: "")
-            }
-            
-            do {
-                return try self.decoder.decode(T.self, from: data)
-            } catch let error {
-                throw NetworkError.DecodingFailure(errorMessage: error.localizedDescription)
-            }
-            
-        }.mapError { error in
-            if let error = error as? NetworkError {
-                return error
-            } else {
-                return NetworkError.other(errorMessage: error.localizedDescription)
-            }
-        }.eraseToAnyPublisher()
-    }
-    
-    init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
-        self.session = session
-        self.decoder = decoder
+    struct Dependencies {
+        var session: URLSession
+        var decoder: JSONDecoder
     }
 
-    private static let instance: APIClient = .init(session: URLSession.shared, decoder: JSONDecoder())
-    private var session: URLSession = .shared
+    // Send an API request and decode the response
+    func send<T: Codable>(request: APIRequest) async throws -> T {
+        let (data, response) = try await session.data(for: request.urlRequest())
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.status == .success  else {
+            throw NetworkError(response: response, message: "Invalid response")
+        }
+
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw NetworkError.DecodingFailure(errorMessage: error.localizedDescription)
+        }
+    }
+
+    private var session: URLSession
     private var decoder: JSONDecoder
+}
+
+extension APIClient {
+    init(dependencies: Dependencies = .init(session: .shared, decoder: .init())) {
+        self.session = dependencies.session
+        self.decoder = dependencies.decoder
+    }
 }

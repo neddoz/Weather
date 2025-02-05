@@ -15,7 +15,7 @@ enum mockScenario {
     case weeklyForeCastFailure(_ error: Error)
 }
 
-class MockAPIClient {
+struct MockAPIClient {
     
     var mockSuccess: Bool = false
     var mockScenario: mockScenario = .currentWeatherSuccess
@@ -36,30 +36,23 @@ class MockAPIClient {
 //  WeatherForcastApiClient
 
 extension MockAPIClient: WeatherForcastApiClient{
-    static var shared: WeatherForcastApiClient {
-        return MockAPIClient()
-    }
-    
-    func send<T: Codable & Decodable>(request: APIRequest) -> AnyPublisher<T, Error> {
+
+    func send<T: Codable & Decodable>(request: APIRequest) async throws -> T {
         switch mockScenario {
         case .currentWeatherSuccess:
-            return Just(getSampleCurrentWeatherListing() as! T)
-                .setFailureType(to: Error.self)
-                .eraseToAnyPublisher()
+            return getSampleCurrentWeatherListing() as! T
         case let .currenWeatherFailure(error):
-            return Fail(error: error).eraseToAnyPublisher()
+            return error as! T
         case .weeklyForeCastSuccess:
-            return Just(getSampleWeeklyForeCast() as! T)
-                .setFailureType(to: Error.self)
-                .eraseToAnyPublisher()
+            return getSampleWeeklyForeCast() as! T
         case let .weeklyForeCastFailure(error):
-            return Fail(error: error).eraseToAnyPublisher()
+            return error as! T
         }
     }
     
 }
 
-var sampleCurrentWeatherListing = """
+let sampleCurrentWeatherListing = """
 {
   "coord": {
     "lon": 10.99,
@@ -111,7 +104,7 @@ var sampleCurrentWeatherListing = """
 }
 """
 
-var sampleWeeklyForeCast = """
+let sampleWeeklyForeCast = """
 {
     "cod": "200",
     "message": 0,

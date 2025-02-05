@@ -32,8 +32,8 @@ extension Date {
 
 // Arrays
 public extension Array where Element: Hashable {
-  static func removeDuplicates(_ elements: [Element]) -> [Element] {
+    func removeDuplicates() -> [Element] {
     var seen = Set<Element>()
-    return elements.filter{ seen.insert($0).inserted }
+    return self.filter{ seen.insert($0).inserted }
   }
 }

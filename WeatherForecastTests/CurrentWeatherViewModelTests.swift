@@ -13,7 +13,7 @@ import Combine
 final class CurrentWeatherViewModelTests: XCTestCase {
 
     var sut: CurrentWeatherViewModel!
-    var mockClient: MockAPIClient!
+    var mockClient: WeatherForcastApiClient!
     var disposables = Set<AnyCancellable>()
 
     

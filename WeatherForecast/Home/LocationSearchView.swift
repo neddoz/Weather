@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct LocationSearchView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: LocationSearchResultsViewModel
-    var delegate: LocationSearchDelegate?
+    @Binding var city: String
+    @Binding var cityCoordinate: CLLocationCoordinate2D?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -18,9 +20,10 @@ struct LocationSearchView: View {
             Divider()
             Text("Results")
                 .font(.title)
-            SwiftUI.List(viewModel.viewData) { item in
+            List(viewModel.viewData) { item in
                 Button {
-                    delegate?.fetchWeatherFor(city: item.coordinate)
+                    city = item.title
+                    cityCoordinate = item.coordinate
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text(item.title)
@@ -36,10 +39,5 @@ struct LocationSearchView: View {
         .padding(.horizontal)
         .padding(.top)
         .ignoresSafeArea(edges: .bottom)
-    }
-    
-    init(delegate: LocationSearchDelegate, viewModel: LocationSearchResultsViewModel = .init()){
-        self.delegate = delegate
-        self.viewModel = viewModel
     }
 }

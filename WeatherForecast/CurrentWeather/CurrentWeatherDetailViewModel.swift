@@ -64,7 +64,7 @@ struct CurrentWeatherDetailViewModel {
 
 
 extension Double {
-    static let temeperatureFormmater: MeasurementFormatter = {
+    nonisolated(unsafe) static let temeperatureFormmater: MeasurementFormatter = {
         let formatter = MeasurementFormatter()
         return formatter
     }()
