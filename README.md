@@ -1,12 +1,13 @@
 # Weather
-MVVM, Combine and SwiftUI weather app
+MVVM and SwiftUI weather app
 
 # Architecture
-1. MVVM+Combine Architecture
-2. Programmatic UI using SwiftUI
-3. Parsing JSON using Codable
-4. Error Handling
-5. Unit tests using XCTests
+1. MVVM Architecture
+2. Swift 6 and async/await for networking
+3. Programmatic UI using SwiftUI
+4. Parsing JSON using Codable
+5. Error Handling
+6. Unit tests using XCTests
 
 
 # RoadMap
