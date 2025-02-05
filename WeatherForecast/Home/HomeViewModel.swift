@@ -89,7 +89,6 @@ final class HomeViewModel: NSObject, ObservableObject {
     private func updateState() {
         if currentWeatherViewModel.location != nil {
             state = .success
-            refresh()
         }
         refresh()
     }

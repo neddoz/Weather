@@ -31,16 +31,21 @@ class CurrentWeatherViewModel:  ObservableObject, Identifiable {
             // unexpected state
             return
         }
-        
-        do {
-            let result: CurrentWeatherForecast = try await apiServiceClient.send(
-                request: requestBuilder.makeCurrentDayForecastRequest(for: location)
-            )
-            var vm: CurrentWeatherDetailViewModel?
-            vm = CurrentWeatherDetailViewModel(item: result)
-            self.detailViewModel = vm
-        } catch {
-            self.error = error
+        Task {
+            do {
+                let result: CurrentWeatherForecast = try await apiServiceClient.send(
+                    request: requestBuilder.makeCurrentDayForecastRequest(for: location)
+                )
+                await MainActor.run {
+                    var vm: CurrentWeatherDetailViewModel?
+                    vm = CurrentWeatherDetailViewModel(item: result)
+                    self.detailViewModel = vm
+                }
+            } catch {
+                await MainActor.run {
+                    self.error = error
+                }
+            }
         }
     }
 }
