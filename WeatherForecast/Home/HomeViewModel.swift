@@ -13,14 +13,20 @@ final class HomeViewModel: NSObject, ObservableObject {
     @Published var currentWeatherViewModel: CurrentWeatherViewModel
     @Published var weeklyViewModel: WeeklyForeCastViewModel
     @Published var state: ViewModelState = .loading
-    @Published public var city: String = "" {
+    @MainActor @Published public var city: String = "" {
         didSet {
-            refresh()
+            Task { @MainActor in
+                refresh()
+            }
         }
     }
-    @Published public var cityCoordinates: CLLocationCoordinate2D? {
+    @MainActor @Published public var cityCoordinates: CLLocationCoordinate2D? {
         didSet {
-            refresh()
+            Task { @MainActor in
+                refresh()
+                await currentWeatherViewModel.refresh()
+                await weeklyViewModel.refresh()
+            }
         }
     }
     
@@ -79,7 +85,7 @@ final class HomeViewModel: NSObject, ObservableObject {
         }
 
     }
-    
+    @MainActor
     private func updateState() {
         if currentWeatherViewModel.location != nil {
             state = .success
@@ -108,13 +114,14 @@ final class HomeViewModel: NSObject, ObservableObject {
         weeklyViewModel.location = location
     }
     
+    @MainActor
     func refresh() {
         currentWeatherViewModel.location = cityCoordinates
         weeklyViewModel.location = cityCoordinates
     }
 }
 
-extension HomeViewModel: CLLocationManagerDelegate {
+extension HomeViewModel: @preconcurrency CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         logger.debug("\(error.localizedDescription)")
     }
@@ -125,7 +132,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
     }
-    
+    @MainActor
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let lastLocation = locations.last {
             locationManager.stopUpdatingLocation()
